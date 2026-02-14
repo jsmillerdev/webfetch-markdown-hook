@@ -1,0 +1,12 @@
+{
+  "method": "auto",
+  "retain_images": false,
+  "exclude": [
+    "localhost",
+    "127.0.0.1",
+    "0.0.0.0",
+    "10.*",
+    "172.16.*",
+    "192.168.*"
+  ]
+}
