@@ -5,11 +5,17 @@ A Claude Code hook that routes `WebFetch` through [markdown.new](https://markdow
 ## Prerequisites
 
 - Claude Code
-- `jq` (pre-installed on most systems, or `brew install jq`)
+- `jq` — pre-installed on most systems, or:
+  - macOS: `brew install jq`
+  - Linux: `sudo apt install jq` / `sudo yum install jq`
+  - Windows: `winget install jqlang.jq` or `choco install jq`
+- Windows only: [Git for Windows](https://gitforwindows.org/) (provides Git Bash and `curl`)
 
 ## Setup
 
-**1. Copy the script and config:**
+**1. Copy the script and config** (macOS / Linux / Windows Git Bash):
+
+**Global** — applies to all projects:
 
 ```bash
 mkdir -p ~/.claude/hooks
@@ -18,7 +24,21 @@ curl -o ~/.claude/hooks/markdown-config.json https://raw.githubusercontent.com/j
 chmod +x ~/.claude/hooks/webfetch-markdown-redirect.sh
 ```
 
-**2. Add to `~/.claude/settings.json`:**
+**Project** — applies to the current project only (run from the project root):
+
+```bash
+mkdir -p .claude/hooks
+curl -o .claude/hooks/webfetch-markdown-redirect.sh https://raw.githubusercontent.com/jsmillerdev/webfetch-markdown-hook/main/webfetch-markdown-redirect.sh
+curl -o .claude/hooks/markdown-config.json https://raw.githubusercontent.com/jsmillerdev/webfetch-markdown-hook/main/markdown-config.json
+chmod +x .claude/hooks/webfetch-markdown-redirect.sh
+```
+
+---
+
+**2. Add the hook to your settings:**
+
+- **Global** → `~/.claude/settings.json`
+- **Project** → `.claude/settings.json` in the project root
 
 ```json
 {
@@ -40,11 +60,13 @@ chmod +x ~/.claude/hooks/webfetch-markdown-redirect.sh
 }
 ```
 
+For a **project install**, set `command` to `".claude/hooks/webfetch-markdown-redirect.sh"`.
+
 **3. Restart Claude Code** or run `/hooks` to apply.
 
 ## Configuration
 
-Edit `~/.claude/hooks/markdown-config.json`. The `method` and `retain_images` options are passed through as query parameters to [markdown.new](https://markdown.new):
+Edit `markdown-config.json` in whichever `hooks/` directory you used above. The `method` and `retain_images` options are passed as query parameters to [markdown.new](https://markdown.new):
 
 ```json
 {
